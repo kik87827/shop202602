@@ -1,15 +1,17 @@
-import { Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Container, Nav, Navbar, Row } from "react-bootstrap";
 import "./App.css";
 import bg1 from "./img/bg-1.png";
-import Button from "react-bootstrap/Button";
+import data from "./data";
+import { useState } from "react";
+import CardData from "./Components/CardData";
 
 function App() {
+  const [productData, setProductData] = useState(data);
   return (
     <div className="App">
-      <Button variant="primary">Primary</Button>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar>
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#features">Features</Nav.Link>
@@ -20,21 +22,9 @@ function App() {
       <div className="main-bg" style={{ backgroundImage: `url(${bg1})` }}></div>
       <Container>
         <Row>
-          <Col md={4}>
-            <img src={process.env.PUBLIC_URL + "/shoes1.jpg"} alt="" />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
-          <Col md={4}>
-            <img src={process.env.PUBLIC_URL + "/shoes2.jpg"} alt="" />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
-          <Col md={4}>
-            <img src={process.env.PUBLIC_URL + "/shoes3.jpg"} alt="" />
-            <h4>상품명</h4>
-            <p>상품설명</p>
-          </Col>
+          {productData.map((item, index) => (
+            <CardData key={item.id} item={item} />
+          ))}
         </Row>
       </Container>
     </div>
