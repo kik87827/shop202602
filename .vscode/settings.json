@@ -1,4 +1,23 @@
 {
   "editor.formatOnSave": true,
-  "editor.formatOnPaste": false
+  "editor.formatOnPaste": false,
+
+  // Prettier를 기본 포맷터로
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  "prettier.printWidth": 2000,
+
+  // 언어별 설정: CSS는 포맷 제외
+  "[css]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  },
+  "[scss]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  },
+  "[less]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  }
 }
