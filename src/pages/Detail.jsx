@@ -1,5 +1,21 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+
+let YellowBtn = styled.button`
+  background: ${({ bg = "yellow" }) => bg};
+  color: ${({ bg }) => (bg == "blue" ? "white" : "black")};
+  padding: 10px;
+`;
+
+let NewYellowBtn = styled(YellowBtn)`
+  border: 2px solid pink;
+`;
+
+let Box = styled.div`
+  background: grey;
+  padding: 20px;
+`;
 
 export default function Detail({ shoes }) {
   const { id } = useParams();
@@ -7,6 +23,11 @@ export default function Detail({ shoes }) {
   console.log(cpro, id);
   return (
     <div className="container" style={{ textAlign: "center" }}>
+      <Box>
+        <YellowBtn bg="blue">버튼</YellowBtn>
+        <YellowBtn>버튼</YellowBtn>
+        <NewYellowBtn>버튼</NewYellowBtn>
+      </Box>
       <div className="row">
         <div className="col-md-6">
           <img src={`https://codingapple1.github.io/shop/shoes${cpro.id + 1}.jpg`} width="100%" />
