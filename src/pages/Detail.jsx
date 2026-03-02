@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
@@ -17,12 +17,55 @@ let Box = styled.div`
   padding: 20px;
 `;
 
+/* class Detail2 extends React.Component {
+  componentDidMount() {
+    
+  }
+  componentDidUpdate() {
+    
+  }
+  componentWillUnmount() {
+    
+  }
+} */
+
 export default function Detail({ shoes }) {
   const { id } = useParams();
   const cpro = shoes.find((item) => item.id === parseFloat(id));
+  const [banner, setBanner] = useState(true);
+  let bannerTimer = 0;
   console.log(cpro, id);
+
+  useEffect(() => {
+    /* for (var i = 0; i < 10000; i++) {
+      console.log(1);
+    } */
+    console.log("안녕");
+
+    bannerTimer = setTimeout(() => {
+      setBanner(false);
+    }, 2000);
+
+    () => {
+      clearTimeout(bannerTimer);
+      bannerTimer = 0;
+    };
+  });
+
+  let [count, setCount] = useState(0);
+
   return (
     <div className="container" style={{ textAlign: "center" }}>
+      {banner ? <div className="alert alert-warning">2초 이내 구매시 할인</div> : ""}
+
+      {count}
+      <button
+        onClick={() => {
+          setCount((prev) => prev + 1);
+        }}
+      >
+        버튼
+      </button>
       <Box>
         <YellowBtn bg="blue">버튼</YellowBtn>
         <YellowBtn>버튼</YellowBtn>
