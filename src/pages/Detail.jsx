@@ -33,14 +33,16 @@ export default function Detail({ shoes }) {
   const { id } = useParams();
   const cpro = shoes.find((item) => item.id === parseFloat(id));
   const [banner, setBanner] = useState(true);
+  const [searchInput, setSeachInput] = useState("");
+  const [searchMessage, setSearchMessage] = useState("");
   let bannerTimer = 0;
-  console.log(cpro, id);
+  //console.log(cpro, id);
 
   useEffect(() => {
     /* for (var i = 0; i < 10000; i++) {
       console.log(1);
     } */
-    console.log("안녕");
+    //console.log("안녕");
 
     bannerTimer = setTimeout(() => {
       setBanner(false);
@@ -48,11 +50,25 @@ export default function Detail({ shoes }) {
 
     () => {
       clearTimeout(bannerTimer);
-      bannerTimer = 0;
     };
   });
 
+  useEffect(() => {
+    //isNaN(searchInput) && searchInput.length > 0 ? "숫자만 입력하세요" : ""
+    if (isNaN(searchInput) && searchInput.length > 0) {
+      setSearchMessage("숫자만 입력하세요");
+    } else {
+      setSearchMessage("");
+    }
+  }, [searchInput]);
+
   let [count, setCount] = useState(0);
+
+  const handlerSearch = (e) => {
+    //
+    console.log(!isNaN(searchInput));
+    setSeachInput(e.target.value);
+  };
 
   return (
     <div className="container" style={{ textAlign: "center" }}>
@@ -76,6 +92,11 @@ export default function Detail({ shoes }) {
           <img src={`https://codingapple1.github.io/shop/shoes${cpro.id + 1}.jpg`} width="100%" />
         </div>
         <div className="col-md-6">
+          <div>
+            <input onChange={handlerSearch} />
+            <br />
+            {/* {isNaN(searchInput) && searchInput.length > 0 ? "숫자만 입력하세요" : ""} */ searchMessage}
+          </div>
           <h4 className="pt-5">{cpro.title}</h4>
           <p>{cpro.content}</p>
           <p>{cpro.price}원</p>
