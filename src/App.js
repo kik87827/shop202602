@@ -2,7 +2,7 @@ import { Container, Nav, Navbar, Row } from "react-bootstrap";
 import "./App.css";
 import bg1 from "./img/bg-1.png";
 import data from "./data";
-import { useState } from "react";
+import { createContext, useState } from "react";
 import CardData from "./Components/CardData";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import Detail from "./pages/Detail";
@@ -10,7 +10,10 @@ import About from "./pages/About";
 import Event from "./pages/Event";
 import axios from "axios";
 
+export let Context1 = createContext();
+
 function App() {
+  const [storage, setStorage] = useState([10, 11, 12]);
   const [productData, setProductData] = useState(data);
   const [moreClick, setMoreClick] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -38,7 +41,11 @@ function App() {
           <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
-        <Route path="/detail/:id" element={<Detail shoes={productData} />} />
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{ storage, productData }}>
+            <Detail shoes={productData} />
+          </Context1.Provider>
+        } />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버</div>} />
           <Route path="location" element={<div>위치</div>} />

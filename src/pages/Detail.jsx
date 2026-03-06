@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
+import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+
+import { Context1 } from "../App";
 
 let YellowBtn = styled.button`
   background: ${({ bg = "yellow" }) => bg};
@@ -35,7 +39,11 @@ export default function Detail({ shoes }) {
   const [banner, setBanner] = useState(true);
   const [searchInput, setSeachInput] = useState("");
   const [searchMessage, setSearchMessage] = useState("");
+  const [tabActive, setActiveTab] = useState(1);
+  const [pageLoad, setPageLoad] = useState("");
   let bannerTimer = 0;
+  let loadTimer = 0;
+
   //console.log(cpro, id);
 
   useEffect(() => {
@@ -62,6 +70,16 @@ export default function Detail({ shoes }) {
     }
   }, [searchInput]);
 
+  useEffect(() => {
+    /* loadTimer = setTimeout(() => {
+      setPageLoad("end");
+    }, 10); */
+    setPageLoad("end");
+    return () => {
+      setPageLoad("");
+    };
+  }, [pageLoad]);
+
   let [count, setCount] = useState(0);
 
   const handlerSearch = (e) => {
@@ -71,7 +89,7 @@ export default function Detail({ shoes }) {
   };
 
   return (
-    <div className="container" style={{ textAlign: "center" }}>
+    <div className={["container start", pageLoad].filter(Boolean).join(" ")} style={{ textAlign: "center" }}>
       {banner ? <div className="alert alert-warning">2초 이내 구매시 할인</div> : ""}
 
       {count}
@@ -103,6 +121,41 @@ export default function Detail({ shoes }) {
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
+
+      <Nav variant="tabs" defaultActiveKey={`link${tabActive}`}>
+        <Nav.Item>
+          <Nav.Link eventKey="link0" onClick={() => setActiveTab(0)}>
+            버튼0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link1" onClick={() => setActiveTab(1)}>
+            버튼1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey="link2" onClick={() => setActiveTab(2)}>
+            버튼2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent tabActive={tabActive} />
     </div>
   );
+}
+
+function TabContent({ tabActive }) {
+  const [end, setEnd] = useState(false);
+  let { storage, productData } = useContext(Context1);
+  let timerId = 0;
+  useEffect(() => {
+    timerId = setTimeout(() => {
+      setEnd(true);
+    }, 10);
+    return () => {
+      setEnd(false);
+      clearTimeout(timerId);
+    };
+  }, [tabActive]);
+  return <div className={["start", end ? "end" : ""].filter(Boolean).join(" ")}>{[storage, "내용2", "내용3"][tabActive]}</div>;
 }
