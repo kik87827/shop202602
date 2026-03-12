@@ -9,6 +9,7 @@ import Detail from "./pages/Detail";
 import About from "./pages/About";
 import Event from "./pages/Event";
 import axios from "axios";
+import Cart from "./pages/Cart";
 
 export let Context1 = createContext();
 
@@ -122,6 +123,7 @@ function App() {
             </>
           }
         />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
     </div>
