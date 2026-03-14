@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { countChange } from "./../store/userCart";
+import { countChange, productDelete } from "./../store/userCart";
 import { changeName, changeAge } from "./../store/userSlice";
 
 export default function Cart() {
@@ -46,6 +46,13 @@ export default function Cart() {
                   }}
                 >
                   +
+                </button>
+                <button
+                  onClick={() => {
+                    dispatch(productDelete(id));
+                  }}
+                >
+                  삭제
                 </button>
               </td>
             </tr>

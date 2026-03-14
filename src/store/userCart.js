@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 let cartData = createSlice({
   name: "cartData",
@@ -23,8 +23,11 @@ let cartData = createSlice({
       }
       state.push(payload);
     },
+    productDelete(state, { payload }) {
+      return state.filter((item) => item.id !== payload);
+    },
   },
 });
 
-export let { countChange, productAdd } = cartData.actions;
+export let { countChange, productAdd, productDelete } = cartData.actions;
 export default cartData;

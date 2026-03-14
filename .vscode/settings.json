@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
+  "eslint.enable": false,
 
   // Prettier를 기본 포맷터로
   "editor.defaultFormatter": "esbenp.prettier-vscode",
