@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { Nav } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { Context1 } from "../App";
+
+import { productAdd } from "../store/userCart";
+import { useDispatch } from "react-redux";
 
 let YellowBtn = styled.button`
   background: ${({ bg = "yellow" }) => bg};
@@ -43,6 +46,9 @@ export default function Detail({ shoes }) {
   const [pageLoad, setPageLoad] = useState("");
   let bannerTimer = 0;
   let loadTimer = 0;
+  let dispatch = useDispatch();
+
+  let navigate = useNavigate();
 
   //console.log(cpro, id);
 
@@ -118,7 +124,10 @@ export default function Detail({ shoes }) {
           <h4 className="pt-5">{cpro.title}</h4>
           <p>{cpro.content}</p>
           <p>{cpro.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={() => dispatch(productAdd({ id: cpro.id, count: 1, name: cpro.title }))}>
+            주문하기
+          </button>
+          <button onClick={() => navigate("/cart")}>장바구니 바로가기</button>
         </div>
       </div>
 
