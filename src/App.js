@@ -14,6 +14,13 @@ import Cart from "./pages/Cart";
 export let Context1 = createContext();
 
 function App() {
+  let obj = { name: "kim" };
+
+  localStorage.setItem("data", JSON.stringify(obj));
+  let obj_json = localStorage.getItem("data");
+
+  console.log(JSON.parse(obj_json));
+
   const [storage, setStorage] = useState([10, 11, 12]);
   const [productData, setProductData] = useState(data);
   const [moreClick, setMoreClick] = useState(0);
@@ -42,11 +49,14 @@ function App() {
           <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
           <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
         </Route>
-        <Route path="/detail/:id" element={
-          <Context1.Provider value={{ storage, productData }}>
-            <Detail shoes={productData} />
-          </Context1.Provider>
-        } />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ storage, productData }}>
+              <Detail shoes={productData} />
+            </Context1.Provider>
+          }
+        />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버</div>} />
           <Route path="location" element={<div>위치</div>} />
@@ -76,38 +86,37 @@ function App() {
                   ))}
                 </Row>
               </Container>
-              {
-                loading ? <div style={{ textAlign: 'center', backgroundColor: 'red' }}>로딩중...</div> : null
-              }
-              {
-                moreClick <= 1 ? <div style={{ textAlign: 'center' }}>
+              {loading ? <div style={{ textAlign: "center", backgroundColor: "red" }}>로딩중...</div> : null}
+              {moreClick <= 1 ? (
+                <div style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => {
+                      setLoading(true);
+                      Promise.all([axios.get("https://codingapple1.github.io/shop/data2.json"), axios.get("https://codingapple1.github.io/shop/data3.json")])
+                        .then(([res1, res2]) => {
+                          console.log(res1.data, res2.data);
+                          let moreData = [...productData, ...res1.data];
+                          let moreData2 = [...productData, ...res2.data];
 
-                  <button onClick={() => {
-                    setLoading(true);
-                    Promise.all([axios.get('https://codingapple1.github.io/shop/data2.json'), axios.get('https://codingapple1.github.io/shop/data3.json')]).then(([res1, res2]) => {
-                      console.log(res1.data, res2.data);
-                      let moreData = [...productData, ...res1.data];
-                      let moreData2 = [...productData, ...res2.data];
+                          if (moreClick === 0) {
+                            setProductData(moreData);
+                          } else {
+                            setProductData(moreData2);
+                          }
 
-                      if (moreClick === 0) {
-                        setProductData(moreData);
-                      } else {
-                        setProductData(moreData2);
-                      }
+                          setMoreClick((prev) => prev + 1);
 
-                      setMoreClick(prev => prev + 1);
+                          setLoading(false);
+                        })
+                        .catch(() => {
+                          setLoading(false);
+                          console.log("실패");
+                        });
 
-                      setLoading(false);
-                    }).catch(() => {
-                      setLoading(false);
-                      console.log('실패');
-                    });
+                      /* fetch('https://codingapple1.github.io/shop/data2.json') */
 
-                    /* fetch('https://codingapple1.github.io/shop/data2.json') */
-
-
-                    // axios.post("/asb",{name : "kim"})
-                    /* axios.get("https://codingapple1.github.io/shop/data2.json").then((result) => {
+                      // axios.post("/asb",{name : "kim"})
+                      /* axios.get("https://codingapple1.github.io/shop/data2.json").then((result) => {
 
                       let moreData = [...productData, ...result.data]
                       //let moreData = copyData.push(result.data);
@@ -117,9 +126,14 @@ function App() {
                     }).catch(() => {
                       console.log('실패');
                     }) */
-                  }}>더보기</button>
-                </div> : ""
-              }
+                    }}
+                  >
+                    더보기
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </>
           }
         />

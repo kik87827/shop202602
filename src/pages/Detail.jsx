@@ -44,6 +44,7 @@ export default function Detail({ shoes }) {
   const [searchMessage, setSearchMessage] = useState("");
   const [tabActive, setActiveTab] = useState(1);
   const [pageLoad, setPageLoad] = useState("");
+
   let bannerTimer = 0;
   let loadTimer = 0;
   let dispatch = useDispatch();
@@ -51,6 +52,14 @@ export default function Detail({ shoes }) {
   let navigate = useNavigate();
 
   //console.log(cpro, id);
+
+  useEffect(() => {
+    let localID = JSON.parse(localStorage.getItem("watched") || "[]");
+
+    const newArray = [...new Set([...localID, id])];
+
+    localStorage.setItem("watched", JSON.stringify(newArray));
+  }, []);
 
   useEffect(() => {
     /* for (var i = 0; i < 10000; i++) {
