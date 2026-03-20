@@ -53,12 +53,27 @@ export default function Detail({ shoes }) {
 
   //console.log(cpro, id);
 
-  useEffect(() => {
+  /* useEffect(() => {
     let localID = JSON.parse(localStorage.getItem("watched") || "[]");
 
     const newArray = [...new Set([...localID, id])];
 
     localStorage.setItem("watched", JSON.stringify(newArray));
+  }, []); */
+
+  useEffect(() => {
+    /* let localID = JSON.parse(localStorage.getItem("watched"));
+    if (!localID) {
+      localID = [];
+      localStorage.setItem("watched", JSON.stringify([Number(id)]));
+    } else {
+      const filterID = [...new Set([...localID, Number(id)])];
+      localStorage.setItem("watched", JSON.stringify(filterID));
+    } */
+
+    const idStored = JSON.parse(localStorage.getItem("watched")) ?? [];
+    const updated = [...new Set([...idStored, Number(id)])];
+    localStorage.setItem("watched", JSON.stringify(updated));
   }, []);
 
   useEffect(() => {
