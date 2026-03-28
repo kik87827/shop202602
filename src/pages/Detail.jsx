@@ -8,6 +8,7 @@ import { Context1 } from "../App";
 
 import { productAdd } from "../store/userCart";
 import { useDispatch } from "react-redux";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 let YellowBtn = styled.button`
   background: ${({ bg = "yellow" }) => bg};
@@ -61,6 +62,11 @@ export default function Detail({ shoes }) {
     localStorage.setItem("watched", JSON.stringify(newArray));
   }, []); */
 
+  let q = useQueryClient();
+  let result = q.getQueryData(["getName"]);
+
+  console.log("useQuery" + result.name);
+
   useEffect(() => {
     /* let localID = JSON.parse(localStorage.getItem("watched"));
     if (!localID) {
@@ -71,8 +77,9 @@ export default function Detail({ shoes }) {
       localStorage.setItem("watched", JSON.stringify(filterID));
     } */
 
-    const idStored = JSON.parse(localStorage.getItem("watched")) ?? [];
-    const updated = [...new Set([...idStored, Number(id)])];
+    const stored = JSON.parse(localStorage.getItem("watched"));
+    const idStored = Array.isArray(stored) ? stored : [];
+    const updated = [...new Set([...idStored, Number(id)])].sort();
     localStorage.setItem("watched", JSON.stringify(updated));
   }, []);
 
