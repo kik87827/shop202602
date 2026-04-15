@@ -12,6 +12,7 @@ import Event from "./pages/Event";
 import axios from "axios";
 //import Cart from "./pages/Cart";
 import { useQuery } from "@tanstack/react-query";
+import ElseFunc from "./pages/ElseFunc";
 
 const Detail = lazy(() => import("./pages/Detail"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -84,6 +85,7 @@ function App() {
             <Route path="member" element={<div>멤버</div>} />
             <Route path="location" element={<div>위치</div>} />
           </Route>
+          <Route path="/else" element={<ElseFunc />}></Route>
           <Route
             path="/"
             element={
